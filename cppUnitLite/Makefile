@@ -20,11 +20,12 @@ EXE_NAME = ut
 ###################################################
 SRC  = $(notdir $(wildcard ./source/*.c))
 SRCC = $(notdir $(wildcard ./source/*.cpp))
+ifeq ($(main),1)
+ExampleSRCC = $(notdir $(wildcard ./example/*.cpp))
+else
 ExampleSRCC = 
-#ExampleSRCC = $(notdir $(wildcard ./example/*.cpp))
-
+endif
 OBJS = $(SRC:%.c=$(ModuleDir)/%.o) $(SRCC:%.cpp=$(ModuleDir)/%.o)
-#ExampleSRCCObj=
 ExampleSRCCObj=$(ExampleSRCC:%.cpp=$(ModuleDir)/%.o)
 #OBJS= $(patsubst %.c,$(ModuleDir)/%.o, $(SRC)) \
 #	   $(patsubst %.cpp,$(ModuleDir)/%.o, $(SRCC))
@@ -58,10 +59,8 @@ $(ModuleDir)/%.o : %.c | depend_dir
 	
 .PHONY : clean
 clean:
-	@rm ${OBJ_DIR} -rf
 	@rm log result -rf
 	@rm {EXE_NAME} -rf
 	@rm ${ModuleDir} -rf
 check:
 	@./${EXE_NAME}
-	
