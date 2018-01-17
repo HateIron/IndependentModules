@@ -6,7 +6,7 @@ CXXFLAGS = -g
 
 LDFLAGS  = -o
 OBJ_DIR  = ./libs
-ModuleDir=./Debug
+ModuleDir= ./Debug
 
 INCS     =-I./include
 LIBS     = 
@@ -14,18 +14,30 @@ LIBS     =
 
 vpath  %.c   ./source
 vpath  %.cpp ./source
+vpath  %.cpp ./example
 
 EXE_NAME = ut
 ###################################################
 SRC  = $(notdir $(wildcard ./source/*.c))
 SRCC = $(notdir $(wildcard ./source/*.cpp))
+ExampleSRCC = 
+#ExampleSRCC = $(notdir $(wildcard ./example/*.cpp))
 
-OBJS = $(SRC:%.c=$(ModuleDir)/%.o) $(SRCC:%.cpp=$(ModuleDir)/%.o) 
+OBJS = $(SRC:%.c=$(ModuleDir)/%.o) $(SRCC:%.cpp=$(ModuleDir)/%.o)
+#ExampleSRCCObj=
+ExampleSRCCObj=$(ExampleSRCC:%.cpp=$(ModuleDir)/%.o)
 #OBJS= $(patsubst %.c,$(ModuleDir)/%.o, $(SRC)) \
 #	   $(patsubst %.cpp,$(ModuleDir)/%.o, $(SRCC))
 
-${EXE_NAME} : ${OBJS}
-	ar rcso ${OBJ_DIR}/frame.a ${OBJS}
+${EXE_NAME} : ${OBJS} ${ExampleSRCCObj}
+	ar rcso ${OBJ_DIR}/frame.a ${OBJS}	
+ifeq ($(ExampleSRCC),)
+else
+	${LD} ${CXXFLAGS} ${INCS} ${OBJS} ${ExampleSRCCObj}  -o $@
+	clear
+	echo now is testing....
+	./ut.exe	
+endif
 	rm ${ModuleDir} -rf
 
 # compile windows dll

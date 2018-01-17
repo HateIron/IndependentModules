@@ -1,10 +1,11 @@
 
 
-#include "Test.h"
+#include "TestFrame.h"
 #include "TestRegistry.h"
 #include "TestResult.h"
 #include "Failure.h"
 
+#include <stdio.h>
 
 Test::Test (const SimpleString& testName) 
 	: name_ (testName) 
@@ -18,6 +19,10 @@ Test *Test::getNext() const
 	return next_;
 }
 
+void Test::PrintName()
+{
+	//printf("\r\n======= Test case(%s) in ...\n");
+}
 
 void Test::setNext(Test *test)
 {	
