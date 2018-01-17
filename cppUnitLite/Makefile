@@ -58,21 +58,10 @@ $(ModuleDir)/%.o : %.c | depend_dir
 	
 .PHONY : clean
 clean:
+	@rm ${OBJ_DIR} -rf
 	@rm log result -rf
 	@rm {EXE_NAME} -rf
 	@rm ${ModuleDir} -rf
 check:
 	@./${EXE_NAME}
 	
-
-
-
-
-
-
-
-
-
-
-
-
